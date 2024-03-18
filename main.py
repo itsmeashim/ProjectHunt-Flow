@@ -73,6 +73,16 @@ def create_project_embed(project):
 
     return embed
 
+# catch the command not found error for discord.py
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send("Invalid command. Type `!help` to see available commands.")
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError) -> None:
+	return
+
 def should_send_reminder(reminder, now):
     reminder_datetime = parse_reminder_time(reminder["reminder_time"], now)
     last_reminded = reminder.get("last_reminded")
